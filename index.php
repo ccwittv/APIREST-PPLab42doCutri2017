@@ -1,7 +1,7 @@
 <?php
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-
+use \Psr\Http\Message\UploadedFileInterface as UploadedFile;
 
 require '/composer/vendor/autoload.php';
 require_once '/clases/AccesoDatos.php';
@@ -11,6 +11,10 @@ require_once '/clases/personaApi.php';
 //require_once '/clases/AutentificadorJWT.php';
 require_once '/clases/MWparaCORS.php';
 //require_once '/clases/MWparaAutentificar.php';
+
+//use Slim\Http\Request;
+//use Slim\Http\Response;
+//use Slim\Http\UploadedFile;
 
 $config['displayErrorDetails'] = true;
 $config['addContentLengthHeader'] = false;
@@ -40,7 +44,8 @@ $app->group('/persona', function () {
 
   $this->post('/', \personaApi::class . ':CargarUno');
 
-  $this->delete('/', \personaApi::class . ':BorrarUno');
+  //$this->delete('/', \personaApi::class . ':BorrarUno');
+  $this->delete('/{id}', \personaApi::class . ':BorrarUno');
 
   $this->put('/', \pesonaApi::class . ':ModificarUno');
      

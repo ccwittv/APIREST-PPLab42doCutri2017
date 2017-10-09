@@ -26,8 +26,11 @@ class MWparaCORS
 		// $response->getBody()->write('<p>habilitado HabilitarCORSTodos</p>');
    		 return $response
             ->withHeader('Access-Control-Allow-Origin', '*')
+            //->whitHeader('Access-Control-Allow-Credentials', 'true')
             ->withHeader('Access-Control-Allow-Headers', 
                          'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+            ->withHeader('Content-type', 'text/html')
+            ->withHeader('Content-type', 'application/x-www-form-urlencoded')
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 	}
 

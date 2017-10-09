@@ -1,6 +1,9 @@
 <?php
 require_once 'persona.php';
 require_once 'IApiUsable.php';
+//use Slim\Http\Request;
+//use Slim\Http\Response;
+//use Slim\Http\UploadedFile;
 
 class personaApi extends persona implements IApiUsable
 {
@@ -33,6 +36,7 @@ class personaApi extends persona implements IApiUsable
         $apellido= $ArrayDeParametros['apellido'];
         $mail= $ArrayDeParametros['mail'];
         $sexo= $ArrayDeParametros['sexo'];
+        $foto= $ArrayDeParametros['foto'];
         $password= $ArrayDeParametros['password'];
         
         $mipersona = new persona();
@@ -40,27 +44,39 @@ class personaApi extends persona implements IApiUsable
         $mipersona->apellido=$apellido;
         $mipersona->mail=$mail;
         $mipersona->sexo=$sexo;
+        $mipersona->foto=$foto;
         $mipersona->password=$password;
         $mipersona->InsertarPersonaParametros();
         $archivos = $request->getUploadedFiles();
-        $destino="./fotos/";
-        var_dump($archivos);
-        var_dump($archivos['foto']);
+        $destino="../fotos/";
+        //var_dump($archivos);
+        //var_dump($archivos['foto']);
         if(isset($archivos['foto']))
         {
             $nombreAnterior=$archivos['foto']->getClientFilename();
             $extension= explode(".", $nombreAnterior)  ;
             //var_dump($nombreAnterior);
             $extension=array_reverse($extension);
-            $archivos['foto']->moveTo($destino.$titulo.".".$extension[0]);
+            $archivos['foto']->moveTo($destino.$nombre.$apellido.".".$extension[0]);
         }       
         //$response->getBody()->write("se guardo el cd");
         $objDelaRespuesta->respuesta="Se guardo la Persona.";   
         return $response->withJson($objDelaRespuesta, 200);
     }
       public function BorrarUno($request, $response, $args) {
-     	$ArrayDeParametros = $request->getParsedBody();
-     	$id=$ArrayDeParametros['id'];
+     
+      /*if (isset($args['id'])
+        {
+         $id=$args['id'];
+        } 
+      else
+        {
+         $ArrayDeParametros = $request->getParsedBody();
+         $id=$ArrayDeParametros['id'];
+        }  */
+
+      $id=$args['id'];
+
      	$persona= new persona();
      	$persona->id=$id;
      	$cantidadDeBorrados=$persona->BorrarPersona();
